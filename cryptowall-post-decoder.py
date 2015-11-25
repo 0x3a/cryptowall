@@ -12,8 +12,6 @@
 """
 
 import sys
-import zlib
-import hashlib
 
 def rc4(data, key):
     x = 0
