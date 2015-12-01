@@ -11,6 +11,7 @@
         - CryptoWall 3.0 (2015)
 """
 
+import re
 import sys
 
 def rc4(data, key):
@@ -31,7 +32,14 @@ def rc4(data, key):
     
 def decrypt_data(scrambled_key, data):
     key = ''.join(sorted(list(scrambled_key)))
-    encr_data = data.decode('hex')
+    encr_data = None
+
+    if not len(data) % 2:
+        encr_data = data.decode('hex')
+    else:
+        pd_offset = sum([ int(i) for i in re.findall(r'\d', key)])
+        encr_data = data[pd_offset:].decode('hex') 
+
     decr_data = rc4(encr_data, key)
 
     return decr_data
