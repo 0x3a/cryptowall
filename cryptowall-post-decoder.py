@@ -9,6 +9,7 @@
         - CryptoWall 1.0 (2014)
         - CryptoWall 2.0 (2014)
         - CryptoWall 3.0 (2015)
+        - CryptoWall "4" (2015)
 """
 
 import re
