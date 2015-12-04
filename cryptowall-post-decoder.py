@@ -34,11 +34,19 @@ def decrypt_data(scrambled_key, data):
     key = ''.join(sorted(list(scrambled_key)))
     encr_data = None
 
+    # Padding check
     if not len(data) % 2:
         encr_data = data.decode('hex')
     else:
         pd_offset = sum([ int(i) for i in re.findall(r'\d', key)])
-        encr_data = data[pd_offset:].decode('hex') 
+        encr_data = data[pd_offset:].decode('hex')
+
+    decr_data = rc4(encr_data, key)
+
+    # Validation check on outcome
+    if decr_data[:1] != '{' or decr_data[:-1] != '}':
+        pd_offset = sum([ int(i) for i in re.findall(r'\d', key)])
+        encr_data = data[pd_offset:].decode('hex')
 
     decr_data = rc4(encr_data, key)
 
