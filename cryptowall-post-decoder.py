@@ -33,14 +33,18 @@ def rc4(data, key):
     
 def decrypt_data(scrambled_key, data):
     key = ''.join(sorted(list(scrambled_key)))
-    encr_data = data.decode('hex')
-    test_data = rc4(encr_data, key)
-    if test_data[:1] == '{' or test_data[:-1] == '}':
-        decr_data = test_data
-    else:
-        pd_offset = sum([ int(i) for i in re.findall(r'\d', key)])
-        encr_data = data[pd_offset:].decode('hex')
-        decr_data = rc4(encr_data, key)
+
+    if not len(data) % 2:
+        encr_data = data.decode('hex')
+        test_data = rc4(encr_data, key)    
+        if test_data[:1] == '{' or test_data[:-1] == '}':
+            decr_data = test_data
+            return decr_data
+
+    pd_offset = sum([ int(i) for i in re.findall(r'\d', key)])
+    encr_data = data[pd_offset:].decode('hex')
+    decr_data = rc4(encr_data, key)
+
     return decr_data
 
 if __name__ == '__main__':
