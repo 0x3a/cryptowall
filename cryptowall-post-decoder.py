@@ -36,16 +36,19 @@ def decrypt_data(scrambled_key, data):
 
     if not len(data) % 2:
         encr_data = data.decode('hex')
-        test_data = rc4(encr_data, key)    
-        if test_data[:1] == '{' and test_data[:-1] == '}':
-            decr_data = test_data
+        decr_data = rc4(encr_data, key)
+
+        if decr_data[:1] == '{' and decr_data[-1:] == '}':
             return decr_data
 
     pd_offset = sum([ int(i) for i in re.findall(r'\d', key)])
     encr_data = data[pd_offset:].decode('hex')
     decr_data = rc4(encr_data, key)
-    if decr_data[:1] == '{' and decr_data[:-1] == '}':
+
+    if decr_data[:1] == '{' and decr_data[-1:] == '}':
         return decr_data
+
+    return ''
 
 if __name__ == '__main__':
     if len(sys.argv) != 3:
