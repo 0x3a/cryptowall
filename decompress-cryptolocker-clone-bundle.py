@@ -8,6 +8,8 @@
 
 import os, sys
 from ctypes import *
+nt = windll.ntdll
+
 import struct
 
 def decompress(buf):
